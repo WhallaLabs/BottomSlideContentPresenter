@@ -1,0 +1,100 @@
+﻿<Page x:Class="BottomSlideContentPresenterSample.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:BottomSlideContentPresenterSample"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:control="using:BottomSlideContentPresenter.Control"
+      xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
+      mc:Ignorable="d"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <local:MapAddressToStringConverter x:Key="AddressToStringConverter"></local:MapAddressToStringConverter>
+    </Page.Resources>
+    
+    <Grid>
+        <control:BottomSlideContentPresenter x:Name="BottomSlideContentPresenter"
+                                             PercentsOfScreenToReveal="80"
+                                             BottomContentOffset="{Binding ActualHeight,ElementName=InputGrid}"
+                                             IsOpen="{Binding IsPresenterOpened, Mode=TwoWay}">
+
+            <control:BottomSlideContentPresenter.TopAreaContent>
+                <maps:MapControl Grid.Row="1"
+                                 ZoomLevel="5"
+                                 x:Name="MapControl">
+                </maps:MapControl>
+            </control:BottomSlideContentPresenter.TopAreaContent>
+            <control:BottomSlideContentPresenter.BottomAreaContent>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0"
+                          Margin="0"
+                          x:Name="InputGrid"
+                          Background="DarkSlateBlue">
+
+                        <Grid Height="Auto"
+                              Background="White"
+                              VerticalAlignment="Center"
+                              Margin="36,24">
+
+                            <TextBox Foreground="Black"
+                                     VerticalContentAlignment="Center"
+                                     VerticalAlignment="Stretch"
+                                     PlaceholderText="Enter localization name..."
+                                     x:Name="InputTextBox"
+                                     IsTextPredictionEnabled="False"
+                                     KeyUp="OnTextboxKeyUp"
+                                     FontSize="16"
+                                     InputScope="Search" />
+                        </Grid>
+                    </Grid>
+                    <Grid Grid.Row="1"
+                          Background="White">
+                    </Grid>
+
+                    <ListView Grid.Row="1"
+                              Background="White"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              x:Name="ResultsListView"
+                              BorderThickness="0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Background="Transparent"
+                                      CacheMode="BitmapCache"
+                                      Margin="0,0,0,0"
+                                      Tapped="OnSuggestionTapped">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*"></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Foreground="Black"
+                                               FontSize="18"
+                                               VerticalAlignment="Bottom"
+                                               Text="{Binding Converter={StaticResource AddressToStringConverter}}"></TextBlock>
+                                    <TextBlock Text="{Binding Country}"
+                                               Grid.Row="1"
+                                               Foreground="Gray"
+                                               FontSize="14"
+                                               VerticalAlignment="Top"></TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment"
+                                        Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </Grid>
+            </control:BottomSlideContentPresenter.BottomAreaContent>
+        </control:BottomSlideContentPresenter>
+
+    </Grid>
+</Page>

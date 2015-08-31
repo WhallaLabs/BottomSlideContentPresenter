@@ -1,0 +1,57 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:control="using:BottomSlideContentPresenter.Control">
+
+    <Style TargetType="control:BottomSlideContentPresenter">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="control:BottomSlideContentPresenter">
+                    <Canvas x:Name="PART_MainCanvas">
+
+                        <Canvas.Resources>
+                            <Storyboard x:Name="CloseBottomContentStoryboard">
+                                <DoubleAnimation Storyboard.TargetName="PART_BottomArea"
+                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                 Duration="0:0:0.3">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                            <Storyboard x:Name="OpenBottomContentStoryboard">
+                                <DoubleAnimation Storyboard.TargetName="PART_BottomArea"
+                                                 x:Name="OpenAnimation"
+                                                 Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                                 Duration="0:0:0.3">
+                                    <DoubleAnimation.EasingFunction>
+                                        <CubicEase EasingMode="EaseOut" />
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </Canvas.Resources>
+
+                        <ContentPresenter x:Name="PART_TopArea"
+                                          Content="{TemplateBinding TopAreaContent}"
+                                          VerticalAlignment="Stretch"
+                                          HorizontalAlignment="Stretch"
+                                          DataContext="{TemplateBinding DataContext }" />
+
+                        <ContentPresenter x:Name="PART_BottomArea"
+                                          ManipulationMode="TranslateY"
+                                          VerticalAlignment="Stretch"
+                                          HorizontalAlignment="Stretch"
+                                          Content="{TemplateBinding BottomAreaContent}"
+                                          DataContext="{TemplateBinding DataContext }">
+                            <ContentPresenter.RenderTransform>
+                                <TranslateTransform />
+                            </ContentPresenter.RenderTransform>
+                        </ContentPresenter>
+
+                    </Canvas>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>
